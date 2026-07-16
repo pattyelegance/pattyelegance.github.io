@@ -247,9 +247,125 @@
     color:var(--muted);
     font-size:12px;
   }
+
+  /* ===== ENTRADA: GUARDA-ROUPA ===== */
+  body.ward-locked{overflow:hidden;}
+  #wardrobe{
+    position:fixed; inset:0; z-index:200;
+    perspective:1500px;
+    overflow:hidden;
+    background:#1c0e13;
+    transition:opacity 1s ease;
+  }
+  #wardrobe.fading{opacity:0; pointer-events:none;}
+  .ward-interior{
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse at center, #6b3350 0%, #3d1f28 55%, #1c0e13 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; color:#f7f0e6;
+  }
+  .ward-glow{
+    position:absolute; top:50%; left:50%; width:70vmin; height:70vmin;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(230,183,109,0.28) 0%, rgba(230,183,109,0) 65%);
+    animation:wardPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes wardPulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08);}}
+  .ward-brand{
+    position:relative;
+    font-family:'Playfair Display', serif;
+    font-size:clamp(38px,8vw,72px);
+    letter-spacing:6px;
+    background:linear-gradient(120deg,#e6b76d 20%, #fff3dd 40%, #e6b76d 60%);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+    animation:wardShine 3s linear infinite;
+  }
+  @keyframes wardShine{to{background-position:200% center;}}
+  .ward-brand span{
+    display:block;
+    font-family:'Montserrat',sans-serif;
+    font-size:clamp(12px,2.2vw,18px);
+    letter-spacing:12px;
+    margin-top:6px;
+  }
+  .ward-sub{
+    position:relative;
+    margin-top:18px;
+    font-size:clamp(12px,2vw,15px);
+    color:#f5d7e8;
+    letter-spacing:1px;
+    opacity:.9;
+  }
+  .ward-spark{
+    position:absolute; color:#e6b76d; font-size:14px; opacity:0;
+    animation:wardSpark 2.4s ease-in-out infinite;
+  }
+  @keyframes wardSpark{0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}50%{opacity:1;transform:scale(1.15) rotate(35deg);}}
+  .door{
+    position:absolute; top:0; bottom:0; width:50.5%;
+    background:linear-gradient(105deg, #4a2431 0%, #5f2e42 45%, #3a1c27 100%);
+    transition:transform 2s cubic-bezier(.72,0,.28,1);
+    z-index:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .door::before{
+    content:""; position:absolute; inset:14px;
+    border:1.5px solid rgba(230,183,109,0.55);
+    border-radius:6px;
+    box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
+  }
+  .door::after{
+    content:""; position:absolute; inset:34px;
+    border:1px solid rgba(230,183,109,0.25);
+    border-radius:4px;
+  }
+  .door-l{left:0; transform-origin:left center; border-right:1px solid rgba(230,183,109,0.35);}
+  .door-r{right:0; transform-origin:right center; border-left:1px solid rgba(230,183,109,0.35);}
+  .door-mono{
+    font-family:'Playfair Display', serif;
+    font-size:clamp(60px,12vw,110px);
+    color:rgba(230,183,109,0.8);
+    text-shadow:0 0 26px rgba(230,183,109,0.35);
+  }
+  .knob{
+    position:absolute; top:50%; width:16px; height:16px; border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #ffe9c2, #c98f3d 70%);
+    box-shadow:0 0 14px rgba(230,183,109,0.8);
+    transform:translateY(-50%);
+  }
+  .knob-l{right:12px;}
+  .knob-r{left:12px;}
+  #wardrobe.open .door-l{transform:rotateY(-112deg);}
+  #wardrobe.open .door-r{transform:rotateY(112deg);}
+  .ward-hint{
+    position:absolute; bottom:7vh; left:0; right:0; z-index:3;
+    text-align:center; color:#f5d7e8; font-size:13.5px; letter-spacing:2px;
+    animation:wardHintPulse 1.8s ease-in-out infinite;
+    cursor:pointer;
+  }
+  @keyframes wardHintPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+  #wardrobe.open .ward-hint{animation:none; opacity:0; transition:opacity .4s;}
 </style>
 </head>
-<body>
+<body class="ward-locked">
+
+<div id="wardrobe" onclick="openWardrobe()">
+  <div class="ward-interior">
+    <div class="ward-glow"></div>
+    <span class="ward-spark" style="top:22%;left:28%;animation-delay:0s;">✦</span>
+    <span class="ward-spark" style="top:30%;left:70%;animation-delay:.5s;">✦</span>
+    <span class="ward-spark" style="top:66%;left:24%;animation-delay:1s;">✦</span>
+    <span class="ward-spark" style="top:72%;left:74%;animation-delay:1.4s;">✦</span>
+    <span class="ward-spark" style="top:18%;left:52%;animation-delay:1.8s;">✦</span>
+    <div class="ward-brand">PATTY<span>ELEGANCE</span></div>
+    <div class="ward-sub">✨ Sua nova coleção está aberta ✨</div>
+  </div>
+  <div class="door door-l"><div class="door-mono">P</div><div class="knob knob-l"></div></div>
+  <div class="door door-r"><div class="door-mono">E</div><div class="knob knob-r"></div></div>
+  <div class="ward-hint">TOQUE PARA ABRIR O GUARDA-ROUPA</div>
+</div>
 
 <header>
   <div class="brand">PATTY <span style="display:inline">ELEGANCE</span></div>
@@ -482,6 +598,19 @@
   renderFilters();
   renderGrid();
   renderCart();
+
+  // ===== ENTRADA: GUARDA-ROUPA =====
+  let wardOpened = false;
+  function openWardrobe(){
+    if(wardOpened) return;
+    wardOpened = true;
+    const w = document.getElementById("wardrobe");
+    w.classList.add("open");
+    setTimeout(()=>{ w.classList.add("fading"); document.body.classList.remove("ward-locked"); }, 1900);
+    setTimeout(()=>{ w.remove(); }, 3100);
+  }
+  // abre sozinho depois de 2,2s se a pessoa não tocar
+  setTimeout(openWardrobe, 2200);
 </script>
 </body>
 </html>
