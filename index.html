@@ -1426,8 +1426,8 @@ function finishOrder(){
 
 🛍️ *MEU PEDIDO* (${itens} ${itens>1?"peças":"peça"})
 ${linhas}
-Quanto fica com a promoção pra essas peças? 💸
-(de ${money(totalOriginal)} por até ${money(total)} — economia de ${money(economia)})
+💰 *Valor com a promoção: ${money(total)}*
+De ${money(totalOriginal)} — você economiza ${money(economia)}
 
 Como faço o pagamento e a entrega? 😊`;
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
